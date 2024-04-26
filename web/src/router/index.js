@@ -94,7 +94,6 @@ router.beforeEach((to, from, next) => {
         store.commit("updateToken", token);
         store.dispatch("getinfo", {
           success() {
-            router.push({name: "home"});
             store.commit("updatePullingInfo", false);
           },
           error() {
@@ -104,6 +103,7 @@ router.beforeEach((to, from, next) => {
       } else {
         store.commit("updatePullingInfo", false);
       }
+      next();
 
     } else {
 

@@ -8,9 +8,7 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="nav navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+          
           <router-link class="nav-link" active-class="active" :to="{name: 'pk_index'}">对战</router-link>
         </li>
         <li class="nav-item">

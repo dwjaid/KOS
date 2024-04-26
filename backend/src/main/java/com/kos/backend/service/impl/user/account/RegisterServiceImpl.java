@@ -30,7 +30,7 @@ public class RegisterServiceImpl implements RegisterService {
             return map;
         }
         username = username.trim();
-        if (username.length() == 0) {
+        if (username.isEmpty()) {
             map.put("error_message", "用户名不能为空");
             return map;
         }
@@ -42,7 +42,7 @@ public class RegisterServiceImpl implements RegisterService {
             map.put("error_message", "用户名长度不能低于6");
             return map;
         }
-        if (password.length() == 0 || confirmedPassword.length()== 0) {
+        if (password.isEmpty() || confirmedPassword.isEmpty()) {
             map.put("error_message", "密码不能为空");
             return map;
         }
