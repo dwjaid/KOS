@@ -2,9 +2,6 @@
   <div class="playground">
     <GameMap />
   </div>
-  <div class="button-refresh">
-    <button type="button" class="btn btn-primary btn-lg" id="refresh-button">重载</button>
-  </div>
 
 </template>
 
@@ -20,9 +17,6 @@ export default {
 document.addEventListener("DOMContentLoaded", function() {
     var refreshButton = document.getElementById("refresh-button");
 
-    refreshButton.addEventListener("click", function() {
-        location.reload();
-    });
 });
 </script>
 

@@ -53,7 +53,7 @@ public class JwtUtil {
 
     public static Claims parseJWT(String jwt) throws Exception {
         SecretKey secretKey = generalKey();
-        return Jwts.parser()
+        return Jwts.parserBuilder()
                 .setSigningKey(secretKey)
                 .build()
                 .parseClaimsJws(jwt)
