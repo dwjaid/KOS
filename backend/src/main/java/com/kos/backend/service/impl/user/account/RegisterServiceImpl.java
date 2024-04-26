@@ -38,6 +38,10 @@ public class RegisterServiceImpl implements RegisterService {
             map.put("error_message", "用户名长度不能大于100");
             return map;
         }
+        if (username.length() < 5) {
+            map.put("error_message", "用户名长度不能低于6");
+            return map;
+        }
         if (password.length() == 0 || confirmedPassword.length()== 0) {
             map.put("error_message", "密码不能为空");
             return map;
@@ -61,6 +65,7 @@ public class RegisterServiceImpl implements RegisterService {
         String photo = "https://i2.hdslb.com/bfs/face/880772b25d7f73500679bdb3e278922511b9246a.jpg@272w_272h.jpg";
         User user = new User(null, username, encodedPassword, photo);
         userMapper.insert(user);
+        map.put("error_message", "success");
         return map;
     }
 }

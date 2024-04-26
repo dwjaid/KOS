@@ -15,22 +15,6 @@ export default {
   },
   setup() {
     
-
-    $.ajax({
-      url: "http://127.0.0.1:3000/user/account/register/",
-      type: "post",
-      data: {
-        username: "dwjaid2",
-        password: "123456",
-        confirmedPassword: "123456",
-      },
-      success(resp) {
-        console.log(resp);
-      },
-      error(resp) {
-        console.log(resp);
-      }
-    })
   }
 }
 </script>
