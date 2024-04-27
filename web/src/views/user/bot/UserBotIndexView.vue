@@ -1,96 +1,47 @@
 <template>
-  <ContentField>
-    Bot信息
-  </ContentField>
+  <div class="container">
+    <div class="row">
+      <div class="col-3">
+        <div class="card" style="margin-top: 20px;">
+          <div class="card-body">
+            <img :src="$store.state.user.photo" alt="" width="100%;">
+            <hr>
+            <div class="card" style="text-align: center;">
+              <div class="card-header">
+                <span class="username" >{{$store.state.user.username}}</span>
+              </div>
+            </div>
+            <hr>
+          </div>
+        </div>
+      </div>
+      <div class="col-9">
+        <div class="card" style="margin-top: 20px;">
+          <div class="card-header">
+            <span style="font-size: 150%;">我的Bot</span>
+            <button type="button" class="btn btn-warning float-end" style="font-size: large;">创建Bot</button>
+          </div>
+          <div class="card-body"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 
-import ContentField from '../../../components/ContentField.vue'
-import $ from 'jquery'
-import { useStore } from 'vuex'
 
 export default{
-  components:{
-    ContentField
-  },
   setup() {
-    const store = useStore();
-    // $.ajax({
-    //   url: "http://127.0.0.1:3000/user/bot/add/",
-    //   type: "post",
-    //   data: {
-    //     title: "Bot的标题",
-    //     description: "Bot的描述",
-    //     content: "Bot的代码",
-    //   },
-    //   headers: {
-    //     Authorization: "Bearer " + store.state.user.token,
-    //   },
-    //   success(resp) {
-    //     console.log(resp);
-    //   },
-    //   error(resp) {
-    //     console.log(resp);
-    //   }
-    // })
-    // $.ajax({
-    //   url: "http://127.0.0.1:3000/user/bot/remove/",
-    //   type: "post",
-    //   data: {
-    //     bot_id: 1,
-    //   },
-    //   headers: {
-    //     Authorization: "Bearer " + store.state.user.token,
-    //   },
-    //   success(resp) {
-    //     console.log(resp);
-    //   },
-    //   error(resp) {
-    //     console.log(resp);
-    //   }
-    // })
-    // $.ajax({
-    //   url: "http://127.0.0.1:3000/user/bot/update/",
-    //   type: "post",
-    //   data: {
-    //     bot_id: 2,
-    //     title: "Bot的标题2",
-    //     description: "Bot的描述2",
-    //     content: "Bot的代码2",
-    //   },
-    //   headers: {
-    //     Authorization: "Bearer " + store.state.user.token,
-    //   },
-    //   success(resp) {
-    //     console.log(resp);
-    //   },
-    //   error(resp) {
-    //     console.log(resp);
-    //   }
-    // })
-    $.ajax({
-      url: "http://127.0.0.1:3000/user/bot/getlist/",
-      type: "get",
-      data: {
-        title: "Bot的标题",
-        description: "Bot的描述",
-        content: "Bot的代码",
-      },
-      headers: {
-        Authorization: "Bearer " + store.state.user.token,
-      },
-      success(resp) {
-        console.log(resp);
-      },
-      error(resp) {
-        console.log(resp);
-      }
-    })
+    
   }
 }
 </script>
 
 <style scoped>
-
+.username {
+  color:rgba(186, 194, 33);
+  font-size: 150%;
+  align-items: center;
+}
 </style>
