@@ -26,7 +26,7 @@ import { ref } from 'vue'
 import router from '../../../router/index'
 
 export default{
-  components:{
+  components: {
     ContentField
   },
   setup() {
@@ -38,9 +38,11 @@ export default{
 
     const login = () => {
       error_message.value = "";
+      
       store.dispatch("login", {
         username: username.value,
         password: password.value,
+        
         success(){
           store.dispatch("getinfo", {
             success() {

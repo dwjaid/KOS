@@ -38,16 +38,16 @@ public class RegisterServiceImpl implements RegisterService {
             map.put("error_message", "用户名长度不能大于100");
             return map;
         }
-        if (username.length() < 5) {
-            map.put("error_message", "用户名长度不能低于6");
-            return map;
-        }
         if (password.isEmpty() || confirmedPassword.isEmpty()) {
             map.put("error_message", "密码不能为空");
             return map;
         }
         if (password.length() > 100 || confirmedPassword.length() > 100) {
             map.put("error_message", "密码长度不能大于100");
+            return map;
+        }
+        if (password.length() < 5) {
+            map.put("error_message", "密码长度不能低于6");
             return map;
         }
         if (!password.equals(confirmedPassword)) {

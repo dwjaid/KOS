@@ -7,6 +7,8 @@ export default{
     username: "",
     photo: "",
     token: "",
+    rating: "",
+    rank: "",
     is_login: false,
     pulling_info: true,
   },
@@ -17,6 +19,8 @@ export default{
       state.id = user.id;
       state.username = user.username;
       state.photo = user.photo;
+      state.rating = user.rating;
+      state.rank = user.rank;
       state.is_login = user.is_login;
     },
     updateToken(state, token) {
@@ -27,6 +31,8 @@ export default{
       state.username = "";
       state.photo = "";
       state.token = "";
+      state.rating = "";
+      state.rank = "";
       state.is_login = false;
       state.pulling_info = false;
     },
@@ -44,15 +50,18 @@ export default{
           password: data.password,
         },
         success(resp) {
+          
           if (resp.error_message === "success") {
             localStorage.setItem("token", resp.token);
             context.commit("updateToken", resp.token);
             data.success(resp);
           } else {
+            
             data.error(resp);
           }
         },
         error(resp) {
+          
           data.error(resp);
         }
       });
