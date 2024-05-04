@@ -1,28 +1,20 @@
 import { MyGameObject } from "./MyGameObject";
 import { Snake } from "./Snake";
 import { Wall } from "./Wall";
+import { useStore } from 'vuex'
 
 export class GameMap extends MyGameObject {
-  constructor(ctx, parent) {
+  constructor(ctx, parent, store) {
     super();
-    
+
     this.ctx = ctx;
     this.parent = parent;
+    this.store = store;
+    this.gamemap = store.state.pk.gamemap;
+    this.rows = this.gamemap.length;
+    this.cols = this.gamemap[0].length;
     this.L = 0;
-
-
-    this.extend_size = parseInt(Math.random() * 20);
-    if (this.extend_size % 2 == 0) this.extend_size = this.extend_size - 1;
-
-    
-    this.cols = 14 + this.extend_size;
-    this.rows = 13 + this.extend_size;
-
     this.walls = [];
-    this.walls_random_num = 6;
-    this.inner_walls_num = parseInt(Math.random() * ((this.rows * this.cols) / this.walls_random_num));
-    if (this.inner_walls_num <= this.rows) this.inner_walls_num += this.rows;
-  
     this.snakes = [
       new Snake({id: 0, color: "#4876EC", r: this.rows - 2, c: 1}, this),
       new Snake({id: 1, color: "#F94848", r: 1, c: this.cols - 2}, this),
@@ -39,57 +31,16 @@ export class GameMap extends MyGameObject {
     return true;
   }
 
-  check_connectivity(g, sx, sy, tx, ty) {
-    if (sx == tx && sy == ty) return true;
-    g[sx][sy] = true;
-
-    let dx = [ -1, 0, 1, 0 ], dy = [ 0, 1, 0, -1 ];
-    for (let i = 0; i < 4; ++i) {
-      let x = sx + dx[i], y = sy + dy[i];
-      if (!g[x][y] && this.check_connectivity(g, x, y, tx, ty)) return true;
-    }
-    return false;
-  }
 
   create_walls() {
-    const g = [];
-    for (let r = 0; r < this.rows; ++r) {
-      g[r] = [];
-      for (let c = 0; c < this.cols; ++c) {
-        g[r][c] = false;
-      }
-    }
-    for (let r = 0; r < this.rows; ++r) {
-      g[r][0] = g[r][this.cols - 1] = true;
-    }
-    
-    for (let c = 0; c < this.cols; ++c) {
-      g[0][c] = g[this.rows - 1][c] = true;
-    }
-
-    for (let i = 0; i < this.inner_walls_num / 2; ++i) {
-      for (let j = 0; j < 1000; ++j) {
-        let r = parseInt(Math.random() * this.rows);
-        let c = parseInt(Math.random() * this.cols);
-        if (g[r][c] || g[this.rows - 1 - r][this.cols - 1 - c]) continue;
-        if ((r == this.rows - 2 && c == 1) || (r == 1 && c == this.cols - 2)) continue;
-        g[r][c] = g[this.rows - 1 - r][this.cols - 1 - c] = true;
-        break;
-      }
-    }
-
-    const copy_g = JSON.parse(JSON.stringify(g));
-    if (!this.check_connectivity(copy_g, this.rows - 2, 1, 1, this.cols - 2)) return false;
-
     for (let r = 0; r < this.rows; ++r) {
       for (let c = 0; c < this.cols; ++c) {
-        if (g[r][c]) {
+        if (this.gamemap[r][c]) {
           if (r == 0 || r == this.rows - 1 || c == 0 || c == this.cols - 1) this.walls.push(new Wall(r, c, this, "#0A6970"));
           else this.walls.push(new Wall(r, c, this, "#B37226"));
         }
       }
     }
-    return true;
   }
 
   add_listening_events() {
@@ -118,7 +69,7 @@ export class GameMap extends MyGameObject {
   }
 
   start() {
-    while (!this.create_walls());
+    this.create_walls();
     this.add_listening_events();
   }
 

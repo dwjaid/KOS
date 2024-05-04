@@ -1,15 +1,58 @@
 <template>
-  <PlayGround />
-  <GameMap />
+  <PlayGround v-if="$store.state.pk.status === 'playing'" />
+  <MatchGround v-if="$store.state.pk.status === 'matching'" />
 </template>
 
 <script>
 import PlayGround from '../../components/PlayGround.vue'
-import { GameMap } from "../../assets/scripts/GameMap";
+import MatchGround from '../../components/MatchGround.vue'
+import { onMounted, onUnmounted } from 'vue'
+import { useStore } from 'vuex'
 
 export default{
   components:{
-    PlayGround
+    PlayGround,
+    MatchGround,
+  },
+  setup() {
+    const store = useStore();
+    const socketUrl = `ws://127.0.0.1:3000/websocket/${store.state.user.token}/`;
+
+    let socket = null;
+    onMounted(() => {
+      store.commit("updateOpponent", {
+        username: "我的对手",
+        photo: "https://img.boxmoe.com/uploads/202405/d2562b119cd00e94e6ff861a6a0e9435.webp",
+      })
+      socket = new WebSocket(socketUrl);
+
+      socket.onopen = () => {
+        console.log("connected!");
+        store.commit("updateSocket", socket);
+      }
+      socket.onmessage = msg => {
+        const data = JSON.parse(msg.data);
+        if (data.event === "start-matching") {
+          store.commit("updateOpponent", {
+            username: data.opponent_username,
+            photo: data.opponent_photo,
+          });
+          setTimeout(() => {
+            store.commit("updateStatus", "playing");
+          }, 2000);
+          store.commit("updateGamemap", data.gamemap);
+        }
+      }
+      socket.onclose = () => {
+        console.log("disconnected!");
+        store.commit("updateStatus", "matching");
+      }
+
+    });
+
+    onUnmounted(() => {
+      socket.close();
+    });
   }
 }
 </script>
