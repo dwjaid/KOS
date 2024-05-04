@@ -63,9 +63,6 @@ export class Snake extends MyGameObject {
     this.status = "move";
     this.step ++;
     
-    if (!this.gamemap.check_valid(this.next_cell)) {
-      this.status = "die";
-    }
     
 
     const k = this.cells.length;
