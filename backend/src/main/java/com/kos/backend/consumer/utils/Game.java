@@ -2,8 +2,10 @@ package com.kos.backend.consumer.utils;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.kos.backend.consumer.WebSocketServer;
+import com.kos.backend.pojo.Record;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.locks.ReentrantLock;
@@ -46,8 +48,8 @@ public class Game extends Thread {
             innerWallsNum1 += this.rows;
         }
         this.innerWallsNum = innerWallsNum1;
-        playerA = new Player(idA, rows - 2, 1, new ArrayList<>());
-        playerB = new Player(idB, 1, cols - 2, new ArrayList<>());
+        playerA = new Player(idA, this.rows - 2, 1, new ArrayList<>());
+        playerB = new Player(idB, 1, this.cols - 2, new ArrayList<>());
     }
     public Player getPlayerA() {
         return playerA;
@@ -148,7 +150,9 @@ public class Game extends Thread {
         for (int i = 0; i < 50; ++i) {
             try {
                 Thread.sleep(200);
-                System.out.println(10 - (i * 0.2));
+                JSONObject resp = new JSONObject();
+                resp.put("time", 10 - (i * 0.2));
+                sendAllMessage(resp.toJSONString());
                 lock.lock();
                 try {
                     if (nextStepA != null && nextStepB != null) {
@@ -188,13 +192,12 @@ public class Game extends Thread {
         boolean validB = check_valid(cellsB, cellsA);
         if (!validA || !validB) {
             status = "finished";
-            System.out.println(validA + " " + validB);
             if (!validA && !validB) loser = "all";
             else if (!validA) loser = "A";
             else loser = "B";
         }
-
     }
+
     private void sendAllMessage(String message) {
         WebSocketServer.users.get(playerA.getId()).sendMessage(message);
         WebSocketServer.users.get(playerB.getId()).sendMessage(message);
@@ -212,10 +215,39 @@ public class Game extends Thread {
             lock.unlock();
         }
     }
+    private String getMapString() {
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < this.rows; ++i) {
+            for (int j = 0; j < this.cols; ++j) {
+                res.append(this.g[i][j]);
+            }
+        }
+        return res.toString();
+    }
+    private void saveToDatabase() {
+        Record record = new Record(
+                null,
+                playerA.getId(),
+                playerA.getSx(),
+                playerA.getSy(),
+                playerB.getId(),
+                playerB.getSx(),
+                playerB.getSy(),
+                playerA.getStepsString(),
+                playerB.getStepsString(),
+                getMapString(),
+                this.rows,
+                this.cols,
+                this.loser,
+                new Date()
+        );
+        WebSocketServer.recordMapper.insert(record);
+    }
     private void sendResult() {
         JSONObject resp = new JSONObject();
         resp.put("event", "result");
         resp.put("loser", loser);
+        saveToDatabase();
         sendAllMessage(resp.toJSONString());
     }
     @Override
@@ -239,7 +271,7 @@ public class Game extends Thread {
                     break;
                 }
             } else {
-                if (status.equals("playing")) {
+                if (!loser.equals("all") && !loser.equals("A") && !loser.equals("B")) {
 
                     status = "finished";
                     lock.lock();

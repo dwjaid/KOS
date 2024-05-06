@@ -28,7 +28,7 @@ public class Player {
         int x = sx, y = sy;
         int step = 0;
         res.add(new Cell(x, y));
-        for (int d: steps) {
+        for (int d : steps) {
             x += dx[d];
             y += dy[d];
             res.add(new Cell(x, y));
@@ -38,5 +38,11 @@ public class Player {
         }
         return res;
     }
-
+    public String getStepsString() {
+        StringBuilder res  = new StringBuilder();
+        for (int d : steps) {
+            res.append(d);
+        }
+        return res.toString();
+    }
 }

@@ -1,11 +1,15 @@
 <template>
   <PlayGround v-if="$store.state.pk.status === 'playing'" />
   <MatchGround v-if="$store.state.pk.status === 'matching'" />
+  <ResultBoard v-if="$store.state.pk.loser !== 'none'"/>
+  <StatusBoard v-if="$store.state.pk.status === 'playing'" />
 </template>
 
 <script>
 import PlayGround from '../../components/PlayGround.vue'
 import MatchGround from '../../components/MatchGround.vue'
+import ResultBoard from '../../components/ResultBoard.vue'
+import StatusBoard from '../../components/StatusBoard.vue'
 import { onMounted, onUnmounted } from 'vue'
 import { useStore } from 'vuex'
 
@@ -13,6 +17,8 @@ export default{
   components:{
     PlayGround,
     MatchGround,
+    ResultBoard,
+    StatusBoard,
   },
   setup() {
     const store = useStore();
@@ -23,7 +29,7 @@ export default{
       store.commit("updateOpponent", {
         username: "我的对手",
         photo: "https://img.boxmoe.com/uploads/202405/d2562b119cd00e94e6ff861a6a0e9435.webp",
-      })
+      });
       socket = new WebSocket(socketUrl);
 
       socket.onopen = () => {
@@ -52,6 +58,7 @@ export default{
           const [snake0, snake1] = game.snakes;
           if (data.loser === "all" || data.loser === "A") snake0.status = "die";
           if (data.loser === "all" || data.loser === "B") snake1.status = "die";
+          store.commit("updateLoser", data.loser);
         }
       }
       socket.onclose = () => {

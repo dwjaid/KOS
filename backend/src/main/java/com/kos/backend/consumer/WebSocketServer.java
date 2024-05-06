@@ -3,6 +3,7 @@ package com.kos.backend.consumer;
 import com.alibaba.fastjson2.JSONObject;
 import com.kos.backend.consumer.utils.Game;
 import com.kos.backend.consumer.utils.JwtAuthentication;
+import com.kos.backend.mapper.RecordMapper;
 import com.kos.backend.mapper.UserMapper;
 import com.kos.backend.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +27,18 @@ public class WebSocketServer {
     private Session session = null;
 
     private static UserMapper userMapper;
+    public static RecordMapper recordMapper;
 
     private Game game = null;
 
     @Autowired
     public void setUserMapper(UserMapper userMapper) {
         WebSocketServer.userMapper = userMapper;
+    }
+
+    @Autowired
+    public void setRecordMapper(RecordMapper recordMapper) {
+        WebSocketServer.recordMapper = recordMapper;
     }
 
     @OnOpen
@@ -102,10 +109,8 @@ public class WebSocketServer {
     private void move(int direction) {
         if (game.getPlayerA().getId().equals((user.getId()))) {
             game.setNextStepA(direction);
-            System.out.println("A " + direction);
         } else if (game.getPlayerB().getId().equals(user.getId())) {
             game.setNextStepB(direction);
-            System.out.println("B " + direction);
         }
     }
 
@@ -128,7 +133,7 @@ public class WebSocketServer {
         error.printStackTrace();
     }
 
-    public  void sendMessage(String message) {
+    public void sendMessage(String message) {
         synchronized (this.session) {
             try {
                 this.session.getBasicRemote().sendText(message);
