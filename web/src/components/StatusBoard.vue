@@ -4,7 +4,6 @@
       游戏中
     </div>
     <div class="status-board-timer">
-      剩余时间: {{ countDown }} s
     </div>
     <div class="status-board-player-A" v-if="$store.state.pk.a_id == $store.state.user.id">
       你在本局游戏中操控的蛇为蓝蛇

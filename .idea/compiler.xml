@@ -7,13 +7,29 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="backend" />
+        <module name="matchingsystem" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel target="1.8">
+      <module name="backend" target="1.8" />
+      <module name="backend (1)" target="1.8" />
+      <module name="backend (1) (com.kos.backend)" target="17" />
+      <module name="backend (2)" target="17" />
+      <module name="backend (2) (com.kos)" target="17" />
+      <module name="backend (2) (com.kos.backend)" target="17" />
+      <module name="backend (3)" target="17" />
+      <module name="backend (3) (com.kob)" target="17" />
+      <module name="backendcloud" target="17" />
+      <module name="bankendcloud" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="backend" options="-parameters" />
+      <module name="backend (1)" options="-parameters" />
+      <module name="backend (1) (com.kos.backend)" options="-parameters" />
+      <module name="backend (2) (com.kos.backend)" options="-parameters" />
+      <module name="matchingsystem" options="-parameters" />
     </option>
   </component>
 </project>
