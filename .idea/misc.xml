@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/backendcloud" />
+  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/bankendcloud/pom.xml" />
         <option value="$PROJECT_DIR$/bankendcloud/backend/pom.xml" />
         <option value="$PROJECT_DIR$/backend/pom.xml" />
+        <option value="$PROJECT_DIR$/bankendcloud/bankend/pom.xml" />
+        <option value="$PROJECT_DIR$/backendcloud/matchingsystem/pom.xml" />
+        <option value="$PROJECT_DIR$/backendcloud/pom.xml" />
       </list>
     </option>
   </component>
