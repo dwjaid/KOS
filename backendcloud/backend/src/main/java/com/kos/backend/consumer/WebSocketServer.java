@@ -105,6 +105,8 @@ public class WebSocketServer {
         respA.put("event", "start-matching");
         respA.put("opponent_username", b.getUsername());
         respA.put("opponent_photo", b.getPhoto());
+        respA.put("opponent_rank", b.getTierName());
+        respA.put("opponent_rating", b.getRating());
         respA.put("game", respGame);
         if (users.get(a.getId()) != null) users.get(a.getId()).sendMessage(respA.toJSONString());
 
@@ -112,6 +114,8 @@ public class WebSocketServer {
         respB.put("event", "start-matching");
         respB.put("opponent_username", a.getUsername());
         respB.put("opponent_photo", a.getPhoto());
+        respB.put("opponent_rank", a.getTierName());
+        respB.put("opponent_rating", a.getRating());
         respB.put("game", respGame);
         if (users.get(b.getId()) != null) users.get(b.getId()).sendMessage(respB.toJSONString());
     }

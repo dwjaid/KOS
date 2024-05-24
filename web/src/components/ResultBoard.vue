@@ -34,6 +34,8 @@ export default {
       store.commit("updateOpponent", {
         username: "我的对手",
         photo: "https://img.boxmoe.com/uploads/202405/d2562b119cd00e94e6ff861a6a0e9435.webp",
+        rank: "暂无",
+        rating: "暂无",
       });
     }
     return {

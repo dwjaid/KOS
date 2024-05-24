@@ -36,8 +36,12 @@ public class GetRecordListServiceImpl implements GetRecordListService {
             JSONObject item = new JSONObject();
             item.put("a_username", userA.getUsername());
             item.put("a_photo", userA.getPhoto());
+            item.put("a_rank", userA.getTierName());
+            item.put("a_rating", userA.getRating());
             item.put("b_username", userB.getUsername());
             item.put("b_photo", userB.getPhoto());
+            item.put("b_rank", userB.getTierName());
+            item.put("b_rating", userB.getRating());
             String result = "平局";
             if ("A".equals(record.getLoser())) result = "B胜";
             else if ("B".equals(record.getLoser())) result = "A胜";

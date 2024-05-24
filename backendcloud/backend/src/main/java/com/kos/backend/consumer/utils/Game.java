@@ -280,6 +280,22 @@ public class Game extends Thread {
         user.setRating(rating);
         WebSocketServer.userMapper.updateById(user);
     }
+
+    private void updataUserRank(Player player, Integer rating) {
+        User user = WebSocketServer.userMapper.selectById(player.getId());
+        String rank = "";
+        if (rating < 0) rank = "屡败屡战";
+        else if (rating <= 10) rank = "菜鸟";
+        else if (rating <= 50) rank = "青铜";
+        else if (rating <= 100) rank = "白银";
+        else if (rating <= 200) rank = "黄金";
+        else if (rating <= 500) rank = "铂金";
+        else if (rating <= 1000) rank = "钻石";
+        else if (rating <= 2000) rank = "大师";
+        else rank = "霸主";
+        user.setTierName(rank);
+        WebSocketServer.userMapper.updateById(user);
+    }
     private void saveToDatabase() {
         Integer ratingA = WebSocketServer.userMapper.selectById(playerA.getId()).getRating();
         Integer ratingB = WebSocketServer.userMapper.selectById(playerB.getId()).getRating();
@@ -294,6 +310,8 @@ public class Game extends Thread {
 
         updataUserRating(playerA, ratingA);
         updataUserRating(playerB, ratingB);
+        updataUserRank(playerA, ratingA);
+        updataUserRank(playerB, ratingB);
 
         Record record = new Record(
                 null,

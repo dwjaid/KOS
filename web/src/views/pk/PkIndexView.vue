@@ -35,6 +35,8 @@ export default{
       store.commit("updateOpponent", {
         username: "我的对手",
         photo: "https://img.boxmoe.com/uploads/202405/d2562b119cd00e94e6ff861a6a0e9435.webp",
+        rank: "暂无",
+        rating: "暂无",
       });
       socket = new WebSocket(socketUrl);
 
@@ -48,6 +50,8 @@ export default{
           store.commit("updateOpponent", {
             username: data.opponent_username,
             photo: data.opponent_photo,
+            rank: data.opponent_rank,
+            rating: data.opponent_rating,
           });
           setTimeout(() => {
             store.commit("updateStatus", "playing");
@@ -65,6 +69,14 @@ export default{
           if (data.loser === "all" || data.loser === "A") snake0.status = "die";
           if (data.loser === "all" || data.loser === "B") snake1.status = "die";
           store.commit("updateLoser", data.loser);
+          store.dispatch("getinfo", {
+          success() {
+            store.commit("updatePullingInfo", false);
+          },
+          error() {
+            store.commit("updatePullingInfo", false);
+          }
+        })
         }
       }
       socket.onclose = () => {

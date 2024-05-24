@@ -8,6 +8,12 @@
           <div class="user-username">
             {{ $store.state.user.username }}
           </div>
+          <div class="user-rank">
+            {{ "段位: " +  $store.state.user.rank }}
+          </div>
+          <div class="user-rating">
+            {{ "分数: " +  $store.state.user.rating }}
+          </div>
         </div>
         <div class="col-4">
           <div class="user-select-bot">
@@ -26,8 +32,14 @@
           <div class="user-username">
             {{ $store.state.pk.opponent_username }}
           </div>
+          <div class="user-rank">
+            {{ "段位: " +  $store.state.pk.opponent_rank }}
+          </div>
+          <div class="user-rating">
+            {{ "分数: " +  $store.state.pk.opponent_rating }}
+          </div>
         </div>
-        <div class="col-12" style="text-align: center; padding-top: 18vh;">
+        <div class="col-12" style="text-align: center; padding-top: 3vh;">
           <button @click="click_match_btn" class="btn btn-outline-success btn-lg" type="button">{{ match_btn_info }}</button>
         </div>
       </div>
@@ -115,6 +127,19 @@ div.user-username {
   font-weight: 800;
   color: rgba(186, 194, 33);
   padding-top: 2vh;
+}
+div.user-rank {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  color: rgb(32, 236, 66);
+  padding-top: 2vh;
+}
+div.user-rating {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  color: rgb(227, 81, 48);
 }
 
 </style>
